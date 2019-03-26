@@ -1,6 +1,8 @@
 import { takeLatest, call, put, all } from "redux-saga/effects";
 import * as constants from "../constants/constants";
-import { putAction } from "../actions/simpleAction";
+import { putAction } from "../actions/homeAction";
+import request from '../utils/request';
+
 
 export const fetchMovies = () => {
   return { hello: 'true' }
@@ -12,14 +14,12 @@ export function* watcherSaga() {
 }
 
 function* loadMovies(data) {
-  console.log('sagas');
+  const requestUrl = "https://jsonplaceholder.typicode.com/todos/1";
   try {
-    console.log('before');
-    const movies = yield call("https://api.myjson.com/bins/kez8a");
-    console.log('movies', movies);
+    const movies = yield call(request, requestUrl);
     yield put(putAction(movies))
   } catch(error) {
-
+    console.log('error');
   }
 }
 
