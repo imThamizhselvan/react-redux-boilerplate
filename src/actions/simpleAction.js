@@ -1,9 +1,13 @@
 
+import * as actions from "../constants/constants";
 
-export function simpleAction() {
-  console.log('two');
-  return {
-    type: 'SIMPLE_ACTION',
-    payload: 'result_of_simple_action'
-  };
-}
+export const simpleAction = () => ({
+  type: 'SIMPLE_ACTION',
+  payload: 'result_of_simple_action'
+});
+
+
+export const putAction = (data) => ({
+  type: 'PUT_ACTION',
+  data
+});

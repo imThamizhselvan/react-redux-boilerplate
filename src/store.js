@@ -1,15 +1,14 @@
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import rootReducer from './reducers/rootReducer';
 import createSagaMiddleware from 'redux-saga';
-import sampleSaga from './sagas/sampleSaga';
-
+import { watcherSaga } from './sagas/sampleSaga';
 const sagaMiddleware = createSagaMiddleware();
 
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
 	rootReducer,
-	applyMiddleware(sagaMiddleware)
-  )
+	composeEnhancers(applyMiddleware(sagaMiddleware))
+);
 
-sagaMiddleware.run(sampleSaga)
-
+sagaMiddleware.run(watcherSaga)
 export default store;

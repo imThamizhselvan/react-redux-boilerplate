@@ -1,32 +1,25 @@
-import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
+import { takeLatest, call, put, all } from "redux-saga/effects";
+import * as constants from "../constants/constants";
+import { putAction } from "../actions/simpleAction";
 
-// worker Saga: will be fired on USER_FETCH_REQUESTED actions
-function* fetchUser(action) {
-   try {
-      const user = yield call('https://api.myjson.com/bins/kez8a', action.payload.userId);
-      yield put({type: "SIMPLE_ACTION", user: user});
-   } catch (e) {
-      yield put({type: "SIMPLE_ACTION", message: e.message});
-   }
+export const fetchMovies = () => {
+  return { hello: 'true' }
+}
+export function* watcherSaga() {
+  yield all([
+    takeLatest(constants.SIMPLE_ACTION, loadMovies),
+  ]);
 }
 
-/*
-  Starts fetchUser on each dispatched `USER_FETCH_REQUESTED` action.
-  Allows concurrent fetches of user.
-*/
-function* sampleSaga() {
-  yield takeEvery("SIMPLE_ACTION", fetchUser);
+function* loadMovies(data) {
+  console.log('sagas');
+  try {
+    console.log('before');
+    const movies = yield call("https://api.myjson.com/bins/kez8a");
+    console.log('movies', movies);
+    yield put(putAction(movies))
+  } catch(error) {
+
+  }
 }
 
-/*
-  Alternatively you may use takeLatest.
-
-  Does not allow concurrent fetches of user. If "USER_FETCH_REQUESTED" gets
-  dispatched while a fetch is already pending, that pending fetch is cancelled
-  and only the latest one will be run.
-*/
-function* mySaga() {
-  yield takeLatest("SIMPLE_ACTION", fetchUser);
-}
-
-export default sampleSaga;
