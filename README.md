@@ -1,4 +1,4 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is extracted from Create react app and integrated with redux and sagas
 
 ## Available Scripts
 
